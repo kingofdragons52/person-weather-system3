@@ -31,14 +31,12 @@ public class WeatherIntegrationService {
         Person person = personRepository.findById(personId)
                 .orElseThrow(() -> new RuntimeException("Person not found"));
 
-        // Запрос к location-сервису
         LocationResponse location = restTemplate.getForObject(
                 locationServiceUrl + "/location?name={name}",
                 LocationResponse.class,
                 person.getLocation()
         );
 
-        // Запрос к weather-сервису
         WeatherResponse weather = restTemplate.getForObject(
                 weatherServiceUrl + "/weather?lat={lat}&lon={lon}",
                 WeatherResponse.class,

@@ -32,7 +32,6 @@ public class WeatherController {
 
         Root response = restTemplate.getForObject(url, Root.class);
 
-        // Конвертируем ответ от OpenWeatherMap в наш формат Weather
         return convertToWeatherModel(response);
     }
 

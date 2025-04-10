@@ -24,7 +24,6 @@ public class Person {
     @NonNull
     private String location;
 
-    // Конструктор без id (для создания новых объектов)
     public Person(@NonNull String name, @NonNull String location) {
         this.name = name;
         this.location = location;
