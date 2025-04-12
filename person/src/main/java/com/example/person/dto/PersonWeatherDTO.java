@@ -11,4 +11,6 @@ public class PersonWeatherDTO {
     private String city;
     private String weatherDescription;
     private Double temperature;
+    private Integer pressure;
+    private Integer humidity;
 }

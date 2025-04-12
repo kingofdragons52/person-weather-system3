@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class LocationResponse {
-    private String city;
+    private String name;
     private Double latitude;
     private Double longitude;
 }
