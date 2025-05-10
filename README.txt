@@ -1,124 +1,110 @@
-Location Microservice
+# Микросервисы: Location, Person, Weather
 
-Технические требования
-Требования к API:
-    1. GET /location - Получить все List<Location>
-    2. GET /location?name={name} - Получить Location по name
-    3. POST /location - Добавить новый Location
-    4. PUT /location?name={name} - Изменить Location по name
-    5. DELETE /location?name={name} - Удалить Location по name
-    6. GET /location/weather?name={name} - Получить погоду для Location по name
+## Сервис Location (порт 8081)
 
-    Location:
-    class Location{
-      Double longitude;
-      Double latitude;
-      String name;
-    }
+### Методы:
 
-    Требования к названиям классов:
-    1. Model:
-        1.1. {Корневой пакет}.location.model.Weather.class
-        1.2. {Корневой пакет}.location.model.Location.class
-    2. Controller:
-        2.1. {Корневой пакет}.location.controller.LocationController.class
-    3. Config:
-        3.1. {Корневой пакет}.location.config.LocationConfig.class
-    4. Repository:
-        4.1. {Корневой пакет}.location.repository.LocationRepository.class
-    5. Main:
-        5.1. {Корневой пакет}.location.LocationApplication.class
+#### Получить все локации
+GET http://localhost:8081/location
 
-## Как проверить работу
+Copy
 
-### 1. Запуск сервиса
-```bash
-mvn spring-boot:run (через терминал)
+#### Получить локацию по имени
+GET http://localhost:8081/location?name={name}
 
+Copy
 
+#### Добавить новую локацию
+POST http://localhost:8081/location
+Тело запроса (JSON):
+{
+"name": "Berlin",
+"latitude": 52.52,
+"longitude": 13.405
+}
 
-2. Примеры запросов
-    2.1. Получить все локации
-    GET http://localhost:8081/location
+Copy
 
-    Ответ:
-    [
-        {
-            "id": 1,
-            "name": "Moscow",
-            "latitude": 55.7558,
-            "longitude": 37.6173
-        },
-        {
-            "id": 2,
-            "name": "London",
-            "latitude": 51.5074,
-            "longitude": -0.1278
-        }
-    ]
+#### Обновить локацию
+PUT http://localhost:8081/location?name={name}
+Тело запроса (JSON):
+{
+"latitude": 52.53,
+"longitude": 13.41
+}
 
-    2.2. Получить локацию по имени
-    GET http://localhost:8081/location?name=Moscow
+Copy
 
-    Ответ:
-    {
-        "id": 1,
-        "name": "Moscow",
-        "latitude": 55.7558,
-        "longitude": 37.6173
-    }
-    2.3. Добавить новую локацию
-    POST http://localhost:8081/location
-    Content-Type: application/json
+#### Удалить локацию
+DELETE http://localhost:8081/location?name={name}
 
-    {
-        "name": "Paris",
-        "latitude": 48.8566,
-        "longitude": 2.3522
-    }
+Copy
 
-    Ответ:
-    {
-        "id": 3,
-        "name": "Paris",
-        "latitude": 48.8566,
-        "longitude": 2.3522
-    }
+#### Получить погоду для локации
+GET http://localhost:8081/location/weather?name={name}
 
-    2.4. Изменить локацию по имени
-    PUT http://localhost:8081/location?name=Paris
-    Content-Type: application/json
+Copy
 
-    {
-        "latitude": 48.86,
-        "longitude": 2.35
-    }
+## Сервис Person (порт 8083)
 
-    Ответ:
-    {
-        "id": 3,
-        "name": "Paris",
-        "latitude": 48.86,
-        "longitude": 2.35
-    }
+### Методы:
 
-    2.5. Удалить локацию по имени
-    DELETE http://localhost:8081/location?name=Paris
+#### Получить всех пользователей
+GET http://localhost:8083/person
 
-    Ответ:
-    Location 'Moscow' deleted
+Copy
 
-    2.6. Получить погоду для локации
-    GET http://localhost:8081/location/weather?name=Moscow
+#### Получить пользователя по ID
+GET http://localhost:8083/person/{id}
 
-    Ответ:
-    {
-        "temp": 15.5,
-        "feels_like": 13.2,
-        "temp_min": 14.0,
-        "temp_max": 17.0,
-        "pressure": 1012,
-        "humidity": 65,
-        "sea_level": 1012,
-        "grnd_level": 1008
-    }
+Copy
+
+#### Добавить нового пользователя
+POST http://localhost:8083/person
+Тело запроса (JSON):
+{
+"firstname": "Anna",
+"surname": "Panina",
+"lastname": "Artemovna",
+"birthday": "2006-04-20",
+"location": "Berlin"
+}
+
+Copy
+
+#### Обновить пользователя
+PUT http://localhost:8083/person/{id}
+Тело запроса (JSON):
+{
+"firstname": "Anna Updated"
+}
+
+Copy
+
+#### Удалить пользователя
+DELETE http://localhost:8083/person/{id}
+
+Copy
+
+#### Получить погоду для пользователя
+GET http://localhost:8083/person/{id}/weather
+
+Copy
+
+## Сервис Weather (порт 8082)
+
+### Методы:
+
+#### Получить данные о погоде
+GET http://localhost:8082/weather?lat={latitude}&lon={longitude}
+
+Copy
+
+## Настройки Eureka
+Eureka Server: http://localhost:8761
+
+Copy
+
+## Консоли H2
+Location DB: http://localhost:8081/h2-console
+Person DB: http://localhost:8083/h2-console

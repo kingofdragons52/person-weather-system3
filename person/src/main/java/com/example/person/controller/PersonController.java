@@ -1,14 +1,13 @@
 package com.example.person.controller;
 
-import com.example.person.dto.PersonWeatherDTO;
-import com.example.person.model.Person;
-import com.example.person.repository.PersonRepository;
 import com.example.person.service.WeatherIntegrationService;
+import com.example.person.model.Person;
+import com.example.person.model.Weather;
+import com.example.person.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Mono;
 
 import java.util.Optional;
 
@@ -47,7 +46,7 @@ public class PersonController {
     }
 
     @GetMapping("/{id}/weather")
-    public ResponseEntity<PersonWeatherDTO> getWeatherForPerson(@PathVariable int id) {
+    public ResponseEntity<Weather> getWeather(@PathVariable Integer id) {
         try {
             return ResponseEntity.ok(weatherIntegrationService.getWeatherByPersonId(id));
         } catch (RuntimeException e) {
@@ -57,11 +56,14 @@ public class PersonController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Person> updatePerson(
-            @PathVariable int id,
+            @PathVariable Integer id,
             @RequestBody Person personDetails) {
         return repository.findById(id)
                 .map(existing -> {
-                    existing.setName(personDetails.getName());
+                    existing.setFirstname(personDetails.getFirstname());
+                    existing.setSurname(personDetails.getSurname());
+                    existing.setLastname(personDetails.getLastname());
+                    existing.setBirthday(personDetails.getBirthday());
                     existing.setLocation(personDetails.getLocation());
                     return ResponseEntity.ok(repository.save(existing));
                 })
